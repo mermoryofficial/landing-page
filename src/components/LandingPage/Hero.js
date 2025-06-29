@@ -28,8 +28,8 @@ export default function HeroSection() {
         </div>
 
         {/* Image (mobile) */}
-        <div className="bg-gradient-to-r from-[#B4ACF126] to-[#309CE226] p-6 rounded-3xl">
-          <div className="flex items-center justify-center w-full max-w-[350px] sm:max-w-[380px] md:max-w-[420px]">
+        <div className="bg-gradient-to-r from-[#B4ACF126] to-[#309CE226] p-4 md:p-6 rounded-3xl">
+          <div className="flex items-center justify-center w-full max-w-[300px] sm:max-w-[360px] md:max-w-[420px]">
             <img
               src="/images/landing-page/hero-flashcard.svg"
               alt="Hero Flashcard"
