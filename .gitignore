@@ -1,1 +1,54 @@
-node_modules/
+stripe.exe
+
+*.secrets
+.env.*
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+database.db-journal
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# data
+database.db
+puppeteer-tests/quizlet_user.json
+puppeteer-tests/screenshots/
+puppeteer-tests/requests/
+server.log
+public/uploads/
+data/extracted
+.env
+anki/testing/data/extracted
+test_output.log
