@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 *,
 html,
 body {
@@ -58,5 +57,59 @@ a {
 
   .social-proof-wave-shape-bottom .shape-fill {
     fill: #ffffff;
+  }
+
+  /* Responsive wave shapes */
+  @media (max-width: 639px) {
+    .social-proof-wave-shape-top svg,
+    .social-proof-wave-shape-bottom svg {
+      height: 60px;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 767px) {
+    .social-proof-wave-shape-top svg,
+    .social-proof-wave-shape-bottom svg {
+      height: 80px;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .social-proof-wave-shape-top svg,
+    .social-proof-wave-shape-bottom svg {
+      height: 100px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .social-proof-wave-shape-top svg,
+    .social-proof-wave-shape-bottom svg {
+      height: 135px;
+    }
+  }
+
+  /* Responsive scroll animations */
+  @media (max-width: 639px) {
+    .animate-scrollmobile {
+      animation: scroll 8s linear infinite;
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 767px) {
+    .animate-scrollmobile {
+      animation: scroll 12s linear infinite;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .animate-scroll {
+      animation: scroll 15s linear infinite;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .animate-scroll {
+      animation: scroll 20s linear infinite;
+    }
   }
 }
