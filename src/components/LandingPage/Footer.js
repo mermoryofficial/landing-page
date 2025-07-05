@@ -1,68 +1,45 @@
 "use client";
 
+import Link from "next/link";
+
 const columns = [
   {
     title: "Website",
-    links: [
-      "Home",
-      "Login",
-      "Signup"
-    ]
+    links: ["Home", "Login", "Signup"],
   },
   {
     title: "Resources",
-    links: [
-      "Contact Us",
-      "Report an Issue",
-      "Request a Feature",
-      "Provide Feedback",
-      "DMCA Takedown",
-      "COPPA Notice"
-    ]
+    links: ["Contact Us", "Report an Issue", "Request a Feature", "Provide Feedback", "DMCA Takedown", "COPPA Notice"],
   },
   {
     title: "Company",
-    links: [
-      "Privacy Policy",
-      "Terms of Service",
-      "Join the team"
-    ]
-  }
-]
+    links: ["Privacy Policy", "Terms of Service", "Join the team"],
+  },
+];
 
 const LandingPageFooter = () => (
-  <footer className="w-full bg-gradient-to-b from-white via-[#F0F7FC] to-[#DFECF5] text-[#5E7078] text-center py-16 border-t border-[#E6E8EA] z-40">
-    <div className="flex flex-col items-center gap-8">
+  <footer className="w-full bg-gradient-to-b from-white via-[#F0F7FC] to-[#DFECF5] text-[#5E7078] text-center py-8 border-t border-[#E6E8EA] z-40">
+    <div className="flex flex-col items-center gap-8 px-6 sm:px-12 md:px-16 lg:px-24">
       {/* Rounded Rectangle */}
-      <div
-        className="flex flex-row justify-between items-start pt-16 pb-16 pr-12 pl-12"
-        style={{
-          width: "calc(100% - 64px)",
-          height: 519,
-          background: "#D2E4F0",
-          borderRadius: 86,
-          color: "black"
-        }}
-      >
+      <div className="w-full flex flex-row justify-between md:justify-around items-start py-6 sm:py-8 md:py-12 px-6 sm:px-8 md:px-12 bg-[#D2E4F0] rounded-3xl text-black">
         {columns.map(({ title, links }, i) => {
           return (
-            <div
-              key={i}
-              className="flex flex-col gap-8 text-left"
-            >
+            <div key={i} className="flex flex-col gap-8 text-left">
               {/* Title */}
-              <div className="text-lg md:text-2xl lg:text-3xl font-bold">
-                {title}
-              </div>
+              <div className="text-lg md:text-2xl lg:text-3xl font-bold">{title}</div>
               {/* Links */}
               <div className="flex flex-col gap-4 text-left text-sm sm:text-base md:text-lg lg:text-xl font-normal">
-                {links.map((link, index) => {
-                  return (
-                    <div key={index} className="hover:opacity-70 cursor-pointer transition-opacity">
-                      {link}
-                    </div>
-                  );
-                })}
+                {links.map((link, index) => (
+                  <Link
+                    key={index}
+                    href={`/${link.toLowerCase().replace(/\s+/g, "-")}`}
+                    className="inline-block relative w-max after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full focus-visible:after:w-full after:rounded"
+                    tabIndex={0}
+                    aria-label={link}
+                  >
+                    {link}
+                  </Link>
+                ))}
               </div>
             </div>
           );
@@ -70,22 +47,11 @@ const LandingPageFooter = () => (
       </div>
 
       {/* Text at bottom */}
-      <div
-        className="flex flex-row justify-between"
-        style={{
-          width: "calc(100% - 64px)",
-          color: "black",
-          marginBottom: 50,
-          fontSize: 24,
-          fontWeight: 400
-        }}
-      >
+      <div className="flex flex-row justify-between items-center w-full text-black">
         {/* Copyright */}
-        <div>
-          © 2025 Mermory
-        </div>
+        <div className="text-lg">© 2025 Mermory</div>
         {/* Socials */}
-        <div className="flex gap-4">
+        <div className="flex gap-2 sm:gap-4">
           {/* TikTok */}
           <svg className="w-5 h-5 hover:opacity-70 cursor-pointer" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-.88-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
