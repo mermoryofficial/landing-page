@@ -66,7 +66,7 @@ const JustKeepLearning = () => {
   });
 
   // Parallax for cards (move up as you scroll)
-  const cardsY = useTransform(scrollYProgress, [0, 1], ["0%", "-66.66%"]);
+  const cardsY = useTransform(scrollYProgress, [0, 1], ["0%", "-200%"]);
 
   return (
     <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#E2EFF8]">
