@@ -5,9 +5,9 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const LandingPageNavbar = () => (
-  <nav className="overflow-hidden w-full fixed shadow-sm flex items-center py-4 md:py-8 bg-white z-50 px-6 md:px-8 lg:px-16 justify-between min-w-0">
+  <nav className="w-full fixed shadow-sm flex items-center py-4 md:py-8 bg-white z-50 px-2 sm:px-4 md:px-8 lg:px-16 justify-start box-border">
     {/* Left side */}
-    <div className="text-primary flex items-center justify-center gap-2 sm:gap-4 lg:gap-8 xl:gap-20 min-w-0 flex-shrink">
+    <div className="text-primary flex items-center justify-center sm:gap-4 lg:gap-8 xl:gap-20 min-w-0 flex-shrink">
       <Link href="/" className="mt-2 flex-shrink-0 w-[120px] lg:w-[150px]">
         <LogoSvg color="#2C9CE2" />
       </Link>
@@ -33,7 +33,7 @@ const LandingPageNavbar = () => (
     </div>
 
     {/* Right side */}
-    <div className="flex gap-1 sm:gap-2 md:gap-8 justify-center items-center flex-shrink-0">
+    <div className="flex gap-1 sm:gap-2 md:gap-8 justify-center items-center flex-shrink-0 ml-auto">
       <Link
         href="/auth/login"
         className="hidden md:block text-primary font-semibold px-5 py-2 hover:bg-gray-200 hover:rounded-full rounded-full transition-colors duration-400"

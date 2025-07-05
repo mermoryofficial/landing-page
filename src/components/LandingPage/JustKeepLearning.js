@@ -1,218 +1,139 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { motion, useScroll, useTransform } from "motion/react";
+import React, { useRef } from "react";
+
+const floatingCards = [
+  {
+    src: "/icons/landing-page/card1.svg",
+    alt: "card1",
+    className:
+      "top-[-4vh] left-[41vw] sm:top-[-3vh] sm:left-[42vw] md:top-[-2vh] md:left-[43vw] lg:top-[-1vh] lg:left-[44vw] xl:top-[0vh] xl:left-[45vw] w-[260px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[300px] md:h-[200px] lg:w-[320px] lg:h-[220px] xl:w-[500px] xl:h-[350px] rotate-[-8deg]",
+  },
+  {
+    src: "/icons/landing-page/card2.svg",
+    alt: "card2",
+    className:
+      "top-[5vh] left-[9vw] sm:top-[6vh] sm:left-[10vw] md:top-[7vh] md:left-[11vw] lg:top-[8vh] lg:left-[12vw] xl:top-[9vh] xl:left-[13vw] w-[260px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[300px] md:h-[200px] lg:w-[320px] lg:h-[220px] xl:w-[500px] xl:h-[350px] rotate-[-7deg]",
+  },
+  {
+    src: "/icons/landing-page/card3.svg",
+    alt: "card3",
+    className:
+      "top-[16vh] left-[66vw] sm:top-[17vh] sm:left-[67vw] md:top-[18vh] md:left-[68vw] lg:top-[19vh] lg:left-[69vw] xl:top-[20vh] xl:left-[70vw] w-[260px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[300px] md:h-[200px] lg:w-[320px] lg:h-[220px] xl:w-[500px] xl:h-[350px] rotate-[-5deg]",
+  },
+  {
+    src: "/icons/landing-page/card4.svg",
+    alt: "card4",
+    className:
+      "top-[26vh] left-[0vw] sm:top-[27vh] sm:left-[3vw] md:top-[28vh] md:left-[4vw] lg:top-[29vh] lg:left-[5vw] xl:top-[30vh] xl:left-[6vw] w-[260px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[300px] md:h-[200px] lg:w-[320px] lg:h-[220px] xl:w-[500px] xl:h-[350px] rotate-[9deg]",
+  },
+  // {
+  //   src: "/icons/landing-page/card5.svg",
+  //   alt: "card5",
+  //   className:
+  //     "top-[5vh] left-[2vw] sm:top-[4vh] sm:left-[1vw] md:top-[3vh] md:left-[0vw] lg:top-[2vh] lg:left-[-1vw] xl:top-[1vh] xl:left-[-2vw] w-[260px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[300px] md:h-[200px] lg:w-[320px] lg:h-[220px] xl:w-[500px] xl:h-[350px] rotate-[-7deg]",
+  // },
+  {
+    src: "/icons/landing-page/card6.svg",
+    alt: "card6",
+    className:
+      "top-[44vh] left-[16vw] sm:top-[45vh] sm:left-[17vw] md:top-[46vh] md:left-[18vw] lg:top-[48vh] lg:left-[20vw] xl:top-[50vh] xl:left-[22vw] w-[260px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[300px] md:h-[200px] lg:w-[320px] lg:h-[220px] xl:w-[500px] xl:h-[350px] rotate-[4deg]",
+  },
+  {
+    src: "/icons/landing-page/card7.svg",
+    alt: "card7",
+    className:
+      "top-[56vh] left-[46vw] sm:top-[62vh] sm:left-[47vw] md:top-[63vh] md:left-[48vw] lg:top-[64vh] lg:left-[49vw] xl:top-[65vh] xl:left-[50vw] w-[260px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[300px] md:h-[200px] lg:w-[320px] lg:h-[220px] xl:w-[500px] xl:h-[350px] rotate-[-12deg]",
+  },
+  {
+    src: "/icons/landing-page/card8.svg",
+    alt: "card8",
+    className:
+      "top-[39vh] left-[64vw] sm:top-[42vh] sm:left-[66vw] md:top-[44vh] md:left-[68vw] lg:top-[46vh] lg:left-[70vw] xl:top-[48vh] xl:left-[72vw] w-[260px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[300px] md:h-[200px] lg:w-[320px] lg:h-[220px] xl:w-[500px] xl:h-[350px] rotate-[11deg]",
+  },
+  // {
+  //   src: "/icons/landing-page/card1.svg",
+  //   alt: "card1-duplicate",
+  //   className:
+  //     "top-[75vh] left-[70vw] sm:top-[76vh] sm:left-[71vw] md:top-[77vh] md:left-[72vw] lg:top-[78vh] lg:left-[73vw] xl:top-[79vh] xl:left-[74vw] w-[260px] h-[160px] sm:w-[280px] sm:h-[180px] md:w-[300px] md:h-[200px] lg:w-[320px] lg:h-[220px] xl:w-[500px] xl:h-[350px] rotate-[15deg]",
+  // },
+];
 
 const JustKeepLearning = () => {
-    const [relativeScrollY, setRelativeScrollY] = useState(0);
-    const [inView, setInView] = useState(false);
-    const sectionRef = useRef(null);
-    const [sectionTop, setSectionTop] = useState(0);
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["center center", "end center"],
+  });
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                setInView(entry.isIntersecting);
-                if (entry.isIntersecting && sectionRef.current) {
-                    const rect = sectionRef.current.getBoundingClientRect();
-                    setSectionTop(window.scrollY + rect.top);
-                }
-            },
-            { threshold: 0.1 }
-        );
+  // Parallax for cards (move up as you scroll)
+  const cardsY = useTransform(scrollYProgress, [0, 1], ["0%", "-200%"]);
 
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-            const rect = sectionRef.current.getBoundingClientRect();
-            setSectionTop(window.scrollY + rect.top);
-        }
-
-        return () => {
-            if (sectionRef.current) observer.unobserve(sectionRef.current);
-        };
-    }, []);
-    useEffect(() => {
-        const handleScroll = () => {
-            if (inView && sectionRef.current) {
-                const currentScrollY = window.scrollY;
-                const relativeScroll = currentScrollY - sectionTop;
-                setRelativeScrollY(relativeScroll);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [inView, sectionTop]);
-
-    return (
-        <div ref={sectionRef} className="relative w-full overflow-hidden z-0 bg-red-500 mt-0">
-            {/* Top wave */}
-            <div className="relative bg-white h-32 z-20">
-                <div className="absolute bottom-[-50px] w-full">
-                    <svg
-                        viewBox="0 0 1200 120"
-                        preserveAspectRatio="none"
-                        className="w-full h-32"
-                        style={{
-                            transform: `scaleY(-10)`
-                        }}
-                    >
-                        <path
-                            d="M0,45
-                            C400,40 700,80 1200,40
-                            L1200,120 
-                            L0,120 Z"
-                            fill="white"
-                        />
-                    </svg>
-                </div>
-            </div>
-
-            {/* Background */}
-            <div
-                className="relative flex items-center justify-center z-0"
-                style={{
-                    background: '#E2EFF8',
-                    backgroundAttachment: 'fixed',
-                    height: '880px'
-                }}
-            >
-                {/* Content with parallax movement */}
-                <div
-                    className="flex flex-col justify-center items-center text-center z-20"
-                    style={{
-                        transform: inView ? `translateY(${relativeScrollY * -0.5}px)` : 'translateY(0px)',
-                        color: '#65849A'
-                    }}
-                >
-                    <h2
-                        className="mb-6 mt-16"
-                        style={{
-                            fontSize: 60,
-                            width: 363,
-                            fontWeight: 600,
-                            textAlign: 'center',
-                        }}
-                    >
-                        Just keep studying
-                    </h2>
-                    <img
-                        src="/icons/landing-page/swimming.svg"
-                        alt="Studying Icon"
-                        width={350}
-                        height={350}
-                    />
-                </div>
-
-                {/* Floating elements */}
-                <div
-                    className="absolute z-10 top-[-100px] left-[800px]"
-                    style={{ transform: inView ? `translateY(${relativeScrollY * -0.15}px)` : 'translateY(0px)' }}
-                >
-                    <img
-                        src="/icons/landing-page/card1.svg"
-                        alt="card1"
-                        width={400}
-                        height={225}
-                    />
-                </div>
-                <div
-                    className="absolute z-10 top-[-70px] left-40"
-                    style={{ transform: inView ? `translateY(${relativeScrollY * -0.15}px)` : 'translateY(0px)' }}
-                >
-                    <img
-                        src="/icons/landing-page/card2.svg"
-                        alt="card2"
-                        width={450}
-                        height={250}
-                    />
-                </div>
-                <div
-                    className="absolute z-10 top-[100px] left-[1300px]"
-                    style={{ transform: inView ? `translateY(${relativeScrollY * -0.15}px)` : 'translateY(0px)' }}
-                >
-                    <img
-                        src="/icons/landing-page/card3.svg"
-                        alt="card3"
-                        width={500}
-                        height={300}
-                    />
-                </div>
-                <div
-                    className="absolute z-10 top-[200px] left-[-100px]"
-                    style={{ transform: inView ? `translateY(${relativeScrollY * -0.15}px)` : 'translateY(0px)' }}
-                >
-                    <img
-                        src="/icons/landing-page/card4.svg"
-                        alt="card4"
-                        width={500}
-                        height={300}
-                    />
-                </div>
-                <div
-                    className="absolute z-10 top-[400px] left-[250px]"
-                    style={{ transform: inView ? `translateY(${relativeScrollY * -0.15}px)` : 'translateY(0px)' }}
-                >
-                    <img
-                        src="/icons/landing-page/card5.svg"
-                        alt="card5"
-                        width={425}
-                        height={225}
-                    />
-                </div>
-                <div
-                    className="absolute z-10 top-[750px] left-[350px]"
-                    style={{ transform: inView ? `translateY(${relativeScrollY * -0.15}px)` : 'translateY(0px)' }}
-                >
-                    <img
-                        src="/icons/landing-page/card6.svg"
-                        alt="card6"
-                        width={400}
-                        height={200}
-                    />
-                </div>
-                <div
-                    className="absolute z-10 top-[550px] left-[900px]"
-                    style={{ transform: inView ? `translateY(${relativeScrollY * -0.15}px)` : 'translateY(0px)' }}
-                >
-                    <img
-                        src="/icons/landing-page/card7.svg"
-                        alt="card7"
-                        width={425}
-                        height={225}
-                    />
-                </div>
-                <div
-                    className="absolute z-10 top-[450px] left-[1400px]"
-                    style={{ transform: inView ? `translateY(${relativeScrollY * -0.15}px)` : 'translateY(0px)' }}
-                >
-                    <img
-                        src="/icons/landing-page/card8.svg"
-                        alt="card8"
-                        width={475}
-                        height={250}
-                    />
-                </div>
-            </div>
-
-            {/* Bottom wave */}
-            <div className="relative bg-white h-32 z-0">
-                <div className="absolute top-[-200px] w-full">
-                    <svg
-                        viewBox="0 0 1200 300"
-                        className="w-full h-[800px] rotate-180"
-                        preserveAspectRatio="none"
-                        style={{ transform: `translateY(-100px)` }}
-                    >
-                        <path
-                            d="M0,0
-                            C300,200 700,20 1200,40
-                            L1200,120 
-                            L0,120 Z"
-                            fill="white"
-                        />
-                    </svg>
-                </div>
-            </div>
+  return (
+    <section ref={sectionRef} className="relative w-full overflow-hidden bg-[#E2EFF8]">
+      {/* Top wave */}
+      <div className="relative h-32 z-20">
+        <div className="absolute bottom-[-50px] w-full">
+          <svg
+            viewBox="0 40 1200 80"
+            preserveAspectRatio="none"
+            className="w-full h-32"
+            style={{ transform: `scaleY(-10)` }}
+          >
+            <path d="M0,45 C400,40 700,80 1200,40 L1200,120 L0,120 Z" fill="white" />
+          </svg>
         </div>
-    );
+      </div>
+
+      {/* Main content with parallax */}
+      <div className="relative w-full h-[150vh]">
+        <div className="sticky top-0 flex items-center justify-center h-screen">
+          <div className="relative w-full flex items-center justify-center">
+            {/* Cards parallax */}
+            <motion.div
+              className="absolute left-0 right-0 top-40 sm:top-40 md:top-40 lg:top-40 w-full h-full"
+              style={{ y: cardsY }}
+            >
+              {floatingCards.map((card) => (
+                <div
+                  key={card.alt}
+                  className={`absolute z-10 pointer-events-none ${card.className}`}
+                  aria-hidden="true"
+                >
+                  <img src={card.src} alt={card.alt} className="w-full h-full object-contain" />
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Main content */}
+            <div className="relative flex flex-col items-center justify-center z-30 w-full mt-96 sm:mt-96 md:mt-96 lg:mt-96">
+              <h2 className="mb-4 mt-8 text-4xl md:text-5xl lg:text-6xl max-w-xs md:max-w-md sfont-semibold text-center text-[#65849A] drop-shadow-lg">
+                Just keep studying
+              </h2>
+              <img
+                src="/icons/landing-page/swimming.svg"
+                alt="Studying Icon"
+                className="w-32 h-32 xs:w-40 xs:h-40 sm:w-48 sm:h-48 md:w-64 md:h-64 lg:w-80 lg:h-80"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom wave */}
+      <div className="relative h-32 z-20">
+        <div className="absolute top-[-50px] w-full">
+          <svg
+            viewBox="0 40 1200 80"
+            preserveAspectRatio="none"
+            className="w-full h-32"
+            style={{ transform: `scaleY(-10) rotate(180deg)`, transformOrigin: "center" }}
+          >
+            <path d="M0,45 C400,40 700,80 1200,40 L1200,120 L0,120 Z" fill="white" />
+          </svg>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default JustKeepLearning;

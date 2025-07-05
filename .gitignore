@@ -52,3 +52,5 @@ data/extracted
 .env
 anki/testing/data/extracted
 test_output.log
+
+.cursor/
