@@ -63,7 +63,7 @@ const ModalLearn = ({ open, onClose }) => {
               <ul className="list-none space-y-3 lg:space-y-4">
                 {steps.map((step, i) => {
                   return (
-                    <li key={i} className="flex flex-row gap-3 items-center lg:gap-4 items-start">
+                    <li key={i} className="flex flex-row gap-3 items-center lg:gap-4">
                       {/* Circle */}
                       <div className="flex justify-center items-center flex-shrink-0 bg-white rounded-full w-8 h-8 lg:w-10 lg:h-10 text-sm lg:text-base font-medium">
                         {i + 1}
