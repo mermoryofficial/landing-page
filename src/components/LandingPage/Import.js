@@ -17,7 +17,7 @@ const ImportComponent = () => {
                 We got you covered with our Import feature
               </div>
             </div>
-            <div className="z-0 flex flex-col items-center justify-center bg-[#F9EECC] rounded-[40px] w-[calc(100%-32px)] max-w-[95vw] lg:max-w-[1230px] mx-4 lg:mx-[100px] h-[400px] md:h-[575px] p-4">
+            <div className="z-0 flex flex-col items-center justify-center bg-[#F9EECC] rounded-[40px] w-[calc(100%-32px)] max-w-[95vw] lg:max-w-[1230px] mx-4 lg:mx-[100px] h-[425px] md:h-[600px] p-4">
               <div className="z-10 flex flex-row overflow-hidden bg-[#FFF8E1] rounded-[40px] w-full h-full border-4 border-[#F9EECC]">
                 {/* Left side */}
                 <div className="flex-1 min-w-0">
