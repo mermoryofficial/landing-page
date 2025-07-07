@@ -19,9 +19,9 @@ const columns = [
 
 const LandingPageFooter = () => (
   <footer className="w-full bg-gradient-to-b from-white via-[#F0F7FC] to-[#DFECF5] text-[#5E7078] text-center py-8 border-t border-[#E6E8EA] z-40">
-    <div className="flex flex-col items-center gap-8 px-6 sm:px-12 md:px-16 lg:px-24">
+    <div className="flex flex-col items-center gap-8 px-4 sm:px-12 md:px-16 lg:px-24">
       {/* Rounded Rectangle */}
-      <div className="w-full flex flex-row justify-between md:justify-around items-start py-6 sm:py-8 md:py-12 px-6 sm:px-8 md:px-12 bg-[#D2E4F0] rounded-3xl text-black">
+      <div className="w-full flex flex-row justify-between md:justify-around gap-2 items-start py-6 sm:py-8 md:py-12 px-6 sm:px-8 md:px-12 bg-[#D2E4F0] rounded-3xl text-black">
         {columns.map(({ title, links }, i) => {
           return (
             <div key={i} className="flex flex-col gap-8 text-left">
