@@ -5,6 +5,7 @@ import Image from "next/legacy/image";
 import ModalLearn from "./ModalLearn";
 import ModalReview from "./ModalReview";
 import ModalFSRS from "./ModalFSRS";
+import { motion } from "motion/react";
 
 const Modes = () => {
   const [isLearnOpen, setIsLearnOpen] = useState(false);
@@ -71,20 +72,24 @@ const Modes = () => {
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
                 />
                 {/* Top image, above main */}
-                <img
+                <motion.img
                   src="/icons/landing-page/flashcard-top.svg"
                   alt="top flashcard"
                   width={100}
                   height={50}
-                  className="absolute left-6 top-10 z-0"
+                  className="absolute left-2 md:left-6 top-10 z-0"
+                  animate={{ y: [0, -12, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
                 {/* Bottom image, below/right main */}
-                <img
+                <motion.img
                   src="/icons/landing-page/flashcard-bottom.svg"
                   alt="bottom flashcard"
                   width={100}
                   height={50}
                   className="absolute left-2/3 bottom-6 z-0"
+                  animate={{ y: [0, 12, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
               </div>
             </div>
@@ -153,20 +158,24 @@ const Modes = () => {
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
                 />
                 {/* Lower check, below/left main */}
-                <img
+                <motion.img
                   src="/icons/landing-page/lower-check.svg"
                   alt="lower checkmark"
                   width={47}
                   height={39}
                   className="absolute left-8 bottom-8 z-0"
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
                 {/* Upper check, above/right main */}
-                <img
+                <motion.img
                   src="/icons/landing-page/lower-check.svg"
                   alt="upper checkmark"
                   width={55}
                   height={56}
                   className="absolute right-6 top-6 z-0"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
               </div>
             </div>
@@ -235,28 +244,34 @@ const Modes = () => {
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
                 />
                 {/* Again, top/right main */}
-                <img
+                <motion.img
                   src="/icons/landing-page/again.svg"
                   alt="again"
                   width={105}
                   height={58}
                   className="absolute right-0 top-2 md:top-8 z-0"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
                 {/* Good, top/left main */}
-                <img
+                <motion.img
                   src="/icons/landing-page/good.svg"
                   alt="good"
                   width={105}
                   height={58}
                   className="absolute left-0 top-2 md:top-8 z-0"
+                  animate={{ y: [0, -14, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
                 {/* Easy, bottom/right main */}
-                <img
+                <motion.img
                   src="/icons/landing-page/easy.svg"
                   alt="easy"
                   width={87}
                   height={48}
                   className="absolute right-2 md:right-8 bottom-2 md:bottom-8 z-0"
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 />
               </div>
             </div>

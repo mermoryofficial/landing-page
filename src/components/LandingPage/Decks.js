@@ -6,11 +6,6 @@ import Image from "next/legacy/image";
 const Decks = () => {
   const subjects = ["Science", "Math", "Physics", "Engineering"];
   const [selectedSubject, setSelectedSubject] = useState(subjects[0]);
-  const carouselRef = useRef(null);
-  const [isAtStart, setIsAtStart] = useState(true);
-  const [isAtEnd, setIsAtEnd] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
 
   const scienceDecks = [
     {
@@ -74,86 +69,22 @@ const Decks = () => {
     return scienceDecks;
   };
 
-  const scrollLeft = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -350, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 350, behavior: "smooth" });
-    }
-  };
-  const handleTouchStart = (e) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      scrollRight();
-    }
-    if (isRightSwipe) {
-      scrollLeft();
-    }
-  };
-
-  const handleScroll = () => {
-    const el = carouselRef.current;
-    if (!el) return;
-
-    setIsAtStart(el.scrollLeft <= 0);
-    setIsAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 1);
-  };
-
-  useEffect(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-
-    el.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => el.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div className="w-full overflow-hidden">
       {/* Mobile Layout */}
       <div className="md:hidden">
-        <div className="mt-[150px] w-full bg-white flex flex-col items-center justify-center">
-          <div className="mb-16 text-center">
-            <div
-              style={{
-                fontWeight: 600,
-                fontSize: 24,
-                maxWidth: 620,
-                marginBottom: 16,
-                color: "#001F2E",
-              }}
-            >
-              Explore ready-make decks
-            </div>
-            <div style={{ fontSize: 16, color: "#083347" }}>
-              Discover flashcard decks created by students just like you.
-            </div>
+        <div className="my-24 w-full bg-white flex flex-col items-center justify-center">
+          <div className="mb-16 px-4 text-center">
+            <div className="text-[#001F2E] text-2xl font-semibold max-w-[620px] mb-4">Explore ready-make decks</div>
+            <div className="text-[#083347]">Discover flashcard decks created by students just like you.</div>
           </div>
 
-          <div className="flex flex-col gap-[24px]" style={{ width: "calc(100% - 104px)" }}>
+          <div className="flex flex-col gap-[24px] w-full pt-0 px-6 pb-6">
             <div className="flex flex-row gap-2 sm:gap-4 flex-wrap">
               {subjects.map((subject) => (
                 <div
                   key={subject}
-                  className="text-xs sm:text-sm md:text-base"
+                  className="text-xs sm:text-base"
                   onClick={() => setSelectedSubject(subject)}
                   style={{
                     cursor: "pointer",
@@ -181,90 +112,81 @@ const Decks = () => {
               ))}
             </div>
 
-            <div style={{ position: "relative" }}>
+            <div className="relative w-full overflow-hidden" aria-label="Decks carousel" tabIndex={0}>
+              {/* Left gradient overlay */}
+              <div className="pointer-events-none absolute left-0 top-0 h-full w-8 z-20 bg-gradient-to-r from-white to-transparent" />
+              {/* Right gradient overlay */}
+              <div className="pointer-events-none absolute right-0 top-0 h-full w-8 z-20 bg-gradient-to-l from-white to-transparent" />
               <div
-                ref={carouselRef}
-                className="flex flex-row gap-[16px] mt-4 pr-[48px]"
-                style={{
-                  overflowX: "auto",
-                  scrollBehavior: "smooth",
-                  paddingBottom: 12,
-                  scrollbarWidth: "none",
-                  msOverflowStyle: "none",
-                  WebkitOverflowScrolling: "touch",
-                }}
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
+                className="flex gap-4 decks-scroll group-hover:[animation-play-state:paused] w-max overflow-visible pb-4"
+                style={{ minWidth: "100%" }}
               >
-                {getDecksForSubject(selectedSubject).map((deck, i) => (
-                  <div
-                    key={i}
-                    className="flex-shrink-0 flex flex-col gap-[8px]"
-                    style={{
-                      width: 336,
-                      height: 273,
-                    }}
-                  >
-                    <img src={deck.img} alt="deck cover" width={336} height={185} style={{ borderRadius: 16 }} />
-                    <div
-                      className="flex flex-row justify-between items-center"
-                      style={{
-                        color: "#5E7078",
-                        fontSize: 12,
-                        fontWeight: 600,
-                      }}
-                    >
-                      <div className="flex flex-row justify-center items-center">
-                        <img
-                          src="/icons/landing-page/decks/star.svg"
-                          alt="Star"
-                          width={16}
-                          height={16}
-                          style={{ verticalAlign: "middle", marginRight: 4 }}
-                        />
-                        {deck.numStars} ({deck.numReviews}){" "}
-                        <img
-                          src="/icons/landing-page/decks/dot.svg"
-                          alt="Dot"
-                          width={4}
-                          height={4}
-                          style={{ verticalAlign: "middle", margin: "0 4px" }}
-                        />{" "}
-                        <img
-                          src="/icons/landing-page/decks/book.svg"
-                          alt="Book"
-                          width={16}
-                          height={16}
-                          style={{ verticalAlign: "middle", marginRight: 4 }}
-                        />
-                        {deck.numStudiers} studiers
+                {[...getDecksForSubject(selectedSubject), ...getDecksForSubject(selectedSubject)].map((deck, i) => (
+                  <div className="overflow-visible" key={i}>
+                    <div className="flex-shrink-0 flex flex-col gap-2 bg-white rounded-lg shadow-md p-2 w-full">
+                      <img src={deck.img} alt="deck cover" width={336} height={185} className="rounded-lg" />
+                      <div className="flex flex-row justify-between items-center text-[#5E7078] text-xs font-semibold">
+                        <div className="flex flex-row items-center">
+                          <img
+                            src="/icons/landing-page/decks/star.svg"
+                            alt="Star"
+                            width={16}
+                            height={16}
+                            className="mr-1"
+                          />
+                          {deck.numStars} ({deck.numReviews})
+                          <img
+                            src="/icons/landing-page/decks/dot.svg"
+                            alt="Dot"
+                            width={4}
+                            height={4}
+                            className="mx-1"
+                          />
+                          <img
+                            src="/icons/landing-page/decks/book.svg"
+                            alt="Book"
+                            width={16}
+                            height={16}
+                            className="mr-1"
+                          />
+                          {deck.numStudiers} studiers
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <img
+                            src="/icons/landing-page/decks/deck.svg"
+                            alt="Deck"
+                            width={16}
+                            height={16}
+                            className="mr-1"
+                          />
+                          {deck.numCards}
+                        </div>
                       </div>
-                      <div className="flex flex-row">
-                        <img
-                          src="/icons/landing-page/decks/deck.svg"
-                          alt="Deck"
-                          width={16}
-                          height={16}
-                          style={{ verticalAlign: "middle", marginRight: 4 }}
-                        />
-                        {deck.numCards}
+                      <div className="flex flex-row gap-1 items-center">
+                        <img src={deck.pfp} alt="pfp" width={32} height={32} className="rounded-full" />
+                        <div className="flex flex-col">
+                          <div className="text-[#001F2E] font-semibold text-sm">{deck.title}</div>
+                          <div className="text-[#5E7078] font-semibold text-xs">@{deck.user}</div>
+                        </div>
                       </div>
+                      <div className="text-xs">Updated {deck.numDaysAgo} days ago</div>
                     </div>
-                    <div className="flex flex-row gap-[4px]">
-                      <img src={deck.pfp} alt="pfp" width={32} height={32} />
-                      <div className="flex flex-col">
-                        <div style={{ color: "#001F2E", fontWeight: 600, fontSize: 14 }}>{deck.title}</div>
-                        <div style={{ color: "#5E7078", fontWeight: 600, fontSize: 12 }}>@{deck.user}</div>
-                      </div>
-                    </div>
-                    <div style={{ fontSize: 12 }}>Updated {deck.numDaysAgo} days ago</div>
                   </div>
                 ))}
               </div>
               <style jsx>{`
-                div::-webkit-scrollbar {
-                  display: none;
+                @keyframes decks-scroll {
+                  to {
+                    transform: translateX(calc(-100% - 1rem));
+                  }
+                }
+                .decks-scroll {
+                  animation: decks-scroll 20s linear infinite;
+                }
+                @media (min-width: 768px) {
+                  .decks-scroll {
+                    animation-duration: 50s;
+                  }
                 }
               `}</style>
             </div>
@@ -274,28 +196,21 @@ const Decks = () => {
 
       {/* Desktop Layout */}
       <div className="hidden md:block">
-        <div className="mt-[150px] w-full bg-white flex flex-col items-center justify-center">
+        <div className="my-36 w-full bg-white flex flex-col items-center justify-center">
           <div className="mb-16 text-center">
-            <div
-              style={{
-                fontWeight: 600,
-                fontSize: 48,
-                maxWidth: 620,
-                marginBottom: 16,
-                color: "#001F2E",
-              }}
-            >
+            <div className="text-[#001F2E] text-3xl xl:text-4xl font-semibold max-w-[620px] mb-4">
               Explore ready-make decks
             </div>
-            <div style={{ fontSize: 24, color: "#083347" }}>
+            <div className="text-[#083347] text-xl xl:text-2xl">
               Discover flashcard decks created by students just like you.
             </div>
           </div>
 
-          <div className="flex flex-col gap-[24px]" style={{ width: "calc(100% - 104px)" }}>
+          <div className="flex flex-col gap-[24px] w-full px-12">
             <div className="flex flex-row gap-[16px]">
               {subjects.map((subject) => (
                 <div
+                  className="text-lg lg:text-xl xl:text-2xl font-semibold"
                   key={subject}
                   onClick={() => setSelectedSubject(subject)}
                   style={{
@@ -305,8 +220,6 @@ const Decks = () => {
                     transition: "background-color 0.3s",
                     backgroundColor: selectedSubject === subject ? "#2C9CE2" : "#FFFFFF",
                     color: selectedSubject === subject ? "#001F2E" : "#5E7078",
-                    fontSize: 24,
-                    fontWeight: 600,
                   }}
                   onMouseEnter={(e) => {
                     if (selectedSubject !== subject) {
@@ -324,120 +237,83 @@ const Decks = () => {
               ))}
             </div>
 
-            <div style={{ position: "relative" }}>
+            <div className="relative w-full overflow-hidden" aria-label="Decks carousel" tabIndex={0}>
+              {/* Left gradient overlay */}
+              <div className="pointer-events-none absolute left-0 top-0 h-full w-12 z-20 bg-gradient-to-r from-white to-transparent" />
+              {/* Right gradient overlay */}
+              <div className="pointer-events-none absolute right-0 top-0 h-full w-12 z-20 bg-gradient-to-l from-white to-transparent" />
               <div
-                ref={carouselRef}
-                className="flex flex-row gap-[16px] mt-4 pr-[48px]"
-                style={{
-                  overflowX: "auto",
-                  scrollBehavior: "smooth",
-                  paddingBottom: 12,
-                  height: "100%",
-                }}
+                className="flex gap-4 decks-scroll group-hover:[animation-play-state:paused] w-max overflow-visible pb-4"
+                style={{ minWidth: "100%" }}
               >
-                {getDecksForSubject(selectedSubject).map((deck, i) => (
-                  <div
-                    key={i}
-                    className="flex-shrink-0 flex flex-col gap-[8px]"
-                    style={{
-                      width: 336,
-                      height: 273,
-                    }}
-                  >
-                    <img
-                      src={deck.img}
-                      alt="deck cover"
-                      width={336}
-                      height={185}
-                      style={{ borderRadius: 16, zIndex: 0 }}
-                    />
-                    <div
-                      className="flex flex-row justify-between items-center"
-                      style={{
-                        color: "#5E7078",
-                        fontSize: 12,
-                        fontWeight: 600,
-                      }}
-                    >
-                      <div className="flex flex-row">
-                        <img
-                          src="/icons/landing-page/decks/star.svg"
-                          alt="Star"
-                          width={16}
-                          height={16}
-                          style={{ verticalAlign: "middle", marginRight: 4 }}
-                        />
-                        {deck.numStars} ({deck.numReviews}){" "}
-                        <img
-                          src="/icons/landing-page/decks/dot.svg"
-                          alt="Dot"
-                          width={4}
-                          height={4}
-                          style={{ verticalAlign: "middle", margin: "0 4px" }}
-                        />{" "}
-                        <img
-                          src="/icons/landing-page/decks/book.svg"
-                          alt="Book"
-                          width={16}
-                          height={16}
-                          style={{ verticalAlign: "middle", marginRight: 4 }}
-                        />
-                        {deck.numStudiers} studiers
+                {[...getDecksForSubject(selectedSubject), ...getDecksForSubject(selectedSubject)].map((deck, i) => (
+                  <div className="overflow-visible" key={i}>
+                    <div className="flex-shrink-0 flex flex-col gap-2 bg-white rounded-lg shadow-md p-2 w-full">
+                      <img src={deck.img} alt="deck cover" width={336} height={185} className="rounded-lg" />
+                      <div className="flex flex-row justify-between items-center text-[#5E7078] text-xs font-semibold">
+                        <div className="flex flex-row items-center">
+                          <img
+                            src="/icons/landing-page/decks/star.svg"
+                            alt="Star"
+                            width={16}
+                            height={16}
+                            className="mr-1"
+                          />
+                          {deck.numStars} ({deck.numReviews})
+                          <img
+                            src="/icons/landing-page/decks/dot.svg"
+                            alt="Dot"
+                            width={4}
+                            height={4}
+                            className="mx-1"
+                          />
+                          <img
+                            src="/icons/landing-page/decks/book.svg"
+                            alt="Book"
+                            width={16}
+                            height={16}
+                            className="mr-1"
+                          />
+                          {deck.numStudiers} studiers
+                        </div>
+                        <div className="flex flex-row items-center">
+                          <img
+                            src="/icons/landing-page/decks/deck.svg"
+                            alt="Deck"
+                            width={16}
+                            height={16}
+                            className="mr-1"
+                          />
+                          {deck.numCards}
+                        </div>
                       </div>
-                      <div className="flex flex-row">
-                        <img
-                          src="/icons/landing-page/decks/deck.svg"
-                          alt="Deck"
-                          width={16}
-                          height={16}
-                          style={{ verticalAlign: "middle", marginRight: 4 }}
-                        />
-                        {deck.numCards}
+                      <div className="flex flex-row gap-1 items-center">
+                        <img src={deck.pfp} alt="pfp" width={32} height={32} className="rounded-full" />
+                        <div className="flex flex-col">
+                          <div className="text-[#001F2E] font-semibold text-sm">{deck.title}</div>
+                          <div className="text-[#5E7078] font-semibold text-xs">@{deck.user}</div>
+                        </div>
                       </div>
+                      <div className="text-xs">Updated {deck.numDaysAgo} days ago</div>
                     </div>
-                    <div className="flex flex-row gap-[4px]">
-                      <img src={deck.pfp} alt="pfp" width={32} height={32} />
-                      <div className="flex flex-col">
-                        <div style={{ color: "#001F2E", fontWeight: 600, fontSize: 14 }}>{deck.title}</div>
-                        <div style={{ color: "#5E7078", fontWeight: 600, fontSize: 12 }}>@{deck.user}</div>
-                      </div>
-                    </div>
-                    <div style={{ fontSize: 12 }}>Updated {deck.numDaysAgo} days ago</div>
                   </div>
                 ))}
               </div>
-
-              <div className="flex flex-row gap-[24px] justify-end mt-4">
-                <div
-                  onClick={!isAtStart ? scrollLeft : undefined}
-                  className="flex justify-center items-center"
-                  style={{
-                    borderRadius: "50%",
-                    height: 40,
-                    width: 40,
-                    background: isAtStart ? "#5E7078" : "#001F2E",
-                    transform: "rotate(180deg)",
-                    cursor: isAtStart ? "not-allowed" : "pointer",
-                    opacity: isAtStart ? 0.6 : 1,
-                  }}
-                >
-                  <img src="/icons/landing-page/decks/arrow.svg" alt="arrow" width={20} height={20} />
-                </div>
-                <div
-                  onClick={!isAtEnd ? scrollRight : undefined}
-                  className="flex justify-center items-center"
-                  style={{
-                    borderRadius: "50%",
-                    height: 40,
-                    width: 40,
-                    background: isAtEnd ? "#5E7078" : "#001F2E",
-                    cursor: isAtEnd ? "not-allowed" : "pointer",
-                    opacity: isAtEnd ? 0.6 : 1,
-                  }}
-                >
-                  <img src="/icons/landing-page/decks/arrow.svg" alt="arrow" width={20} height={20} />
-                </div>
-              </div>
+              <style jsx>{`
+                @keyframes decks-scroll {
+                  to {
+                    transform: translateX(calc(-100% - 1rem));
+                  }
+                }
+                .decks-scroll {
+                  animation: decks-scroll 20s linear infinite;
+                }
+                @media (min-width: 768px) {
+                  .decks-scroll {
+                    animation-duration: 50s;
+                  }
+                }
+              `}</style>
             </div>
           </div>
         </div>
